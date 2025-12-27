@@ -1,18 +1,25 @@
 package com.example.ai_tool_finder.service;
 
-import com.example.ai_tool_finder.model.Role;
 import com.example.ai_tool_finder.model.User;
+import com.example.ai_tool_finder.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-    // Temporary mock users (no DB yet)
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public User getAdminUser() {
-        return new User("admin", Role.ADMIN);
+        return userRepository.findByUsername("admin")
+                .orElseThrow(() -> new RuntimeException("Admin user not found"));
     }
 
     public User getNormalUser() {
-        return new User("user", Role.USER);
+        return userRepository.findByUsername("user")
+                .orElseThrow(() -> new RuntimeException("Normal user not found"));
     }
 }
