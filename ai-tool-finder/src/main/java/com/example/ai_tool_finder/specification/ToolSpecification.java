@@ -11,25 +11,33 @@ public class ToolSpecification {
             var predicates = cb.conjunction();
 
             if (category != null && !category.isEmpty()) {
-                predicates = cb.and(predicates, cb.equal(root.get("category"), category));
+                // sanitize surrounding quotes and normalize case
+                String c = category.trim();
+                c = c.replaceAll("^[\'\"]+|[\'\"]+$", "");
+                String cat = c.toLowerCase();
+                predicates = cb.and(predicates, cb.equal(cb.lower(root.get("category")), cat));
             }
 
             if (pricing != null && !pricing.isEmpty()) {
                 try {
-                    PricingType pt = PricingType.valueOf(pricing.toUpperCase());
+                    // sanitize surrounding quotes if present (e.g. "free" or 'free')
+                    String p = pricing.trim();
+                    p = p.replaceAll("^[\'\"]+|[\'\"]+$", "");
+                    PricingType pt = PricingType.valueOf(p.toUpperCase());
                     predicates = cb.and(predicates, cb.equal(root.get("pricingType"), pt));
                 } catch (IllegalArgumentException e) {
-                    // if invalid pricing enum provided, match nothing
-                    predicates = cb.and(predicates, cb.disjunction());
+                    // throw so caller (controller) can return a 400 and the client knows the input was invalid
+                    throw new IllegalArgumentException("Invalid pricing type: " + pricing);
                 }
             }
 
             if (minRating != null) {
-                predicates = cb.and(predicates, cb.greaterThanOrEqualTo(root.get("averageRating"), minRating));
+                // averageRating may be NULL for some rows; use COALESCE to treat NULL as 0.0 for comparison
+                var avgRatingExpr = cb.coalesce(root.get("averageRating"), 0.0);
+                predicates = cb.and(predicates, cb.greaterThanOrEqualTo(avgRatingExpr, minRating));
             }
 
             return predicates;
         };
     }
 }
-

@@ -4,6 +4,7 @@ import com.example.ai_tool_finder.model.*;
 import com.example.ai_tool_finder.repository.ReviewRepository;
 import com.example.ai_tool_finder.repository.ToolRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,22 +20,26 @@ public class AdminReviewService {
         this.toolRepository = toolRepository;
     }
 
-    public void approveReview(Long reviewId) {
+    @Transactional
+    public Review approveReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
 
         review.setStatus(ReviewStatus.APPROVED);
-        reviewRepository.save(review);
+        Review saved = reviewRepository.save(review);
 
-        updateAverageRating(review.getTool().getId());
+        updateAverageRating(saved.getTool().getId());
+        return saved;
     }
 
-    public void rejectReview(Long reviewId) {
+    @Transactional
+    public Review rejectReview(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
 
         review.setStatus(ReviewStatus.REJECTED);
-        reviewRepository.save(review);
+        Review saved = reviewRepository.save(review);
+        return saved;
     }
 
     private void updateAverageRating(Long toolId) {
