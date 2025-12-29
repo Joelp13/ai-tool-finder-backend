@@ -1,4 +1,4 @@
-# AI Tool Finder – Backend API 🚀
+# AI Tool Finder – Backend API 
 
 AI Tool Finder is a backend-only REST API platform built using **Spring Boot** that allows users to discover, filter, and review AI tools.  
 The system also provides **admin moderation** for reviews and maintains **automatically computed average ratings** for tools.
@@ -7,9 +7,9 @@ This project simulates a **real-world backend system** focusing on clean archite
 
 ---
 
-## 📌 Features
+##  Features
 
-### ✅ AI Tool Management
+###  AI Tool Management
 - Store AI tools with details like:
   - Name
   - Category
@@ -17,14 +17,14 @@ This project simulates a **real-world backend system** focusing on clean archite
   - Pricing Type (FREE / PAID / SUBSCRIPTION)
   - Average Rating (auto-calculated)
 
-### ✅ Advanced Filtering
+###  Advanced Filtering
 - Filter tools based on:
   - Category
   - Pricing Type (mandatory)
   - Minimum Average Rating
 - Supports combined filters using query parameters
 
-### ✅ Review & Rating System
+###  Review & Rating System
 - Users can submit **one review per tool**
 - Reviews include:
   - Rating (1–5)
@@ -33,7 +33,7 @@ This project simulates a **real-world backend system** focusing on clean archite
 - **Only approved reviews affect tool ratings**
 - Average rating is **updated immediately on approval**
 
-### ✅ Admin Moderation
+###  Admin Moderation
 - Admins can:
   - View pending reviews
   - Approve reviews
@@ -42,7 +42,7 @@ This project simulates a **real-world backend system** focusing on clean archite
 
 ---
 
-## 🏗️ Tech Stack
+##  Tech Stack
 
 - **Java 17+**
 - **Spring Boot**
@@ -53,40 +53,14 @@ This project simulates a **real-world backend system** focusing on clean archite
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
-src/main/java/com/example/ai_tool_finder
-│
-├── controller
-│ ├── ToolController
-│ ├── ReviewController
-│ └── AdminController
-│
-├── service
-│ ├── AdminReviewService
-│ └── UserService
-│
-├── repository
-│ ├── ToolRepository
-│ ├── ReviewRepository
-│ └── UserRepository
-│
-├── specification
-│ └── ToolSpecification
-│
-├── model
-│ ├── Tool
-│ ├── Review
-│ ├── User
-│ ├── PricingType
-│ ├── ReviewStatus
-│ └── Role
-│
-└── AiToolFinderApplication.java
+<img width="191" height="341" alt="image" src="https://github.com/user-attachments/assets/66671b7d-213d-402f-af67-cc45ef4621b5" />
+
 
 ---
 
-## 📊 Data Model Overview
+##  Data Model Overview
 
 ### Tool
 - `id`
@@ -111,9 +85,9 @@ src/main/java/com/example/ai_tool_finder
 
 ---
 
-## 🔗 API Endpoints
+##  API Endpoints
 
-### 🔍 Tool APIs (Public)
+###  Tool APIs (Public)
 
 #### Get all tools: GET /api/tools
 
@@ -128,7 +102,7 @@ src/main/java/com/example/ai_tool_finder
 
 ---
 
-### ⭐ Review APIs (User)
+###  Review APIs (User)
 
 #### Submit a review: POST /review
 
@@ -141,7 +115,7 @@ src/main/java/com/example/ai_tool_finder
 
 ---
 
-### 🛠 Admin APIs: Base path:/admin
+###  Admin APIs: Base path:/admin
 
 #### Get pending reviews: GET /admin/reviews/pending
 
@@ -159,7 +133,7 @@ src/main/java/com/example/ai_tool_finder
 
 ---
 
-## ⚙️ Filtering Logic
+##  Filtering Logic
 
 Filtering is implemented using **Spring Data JPA Specifications**.
 
@@ -172,7 +146,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 🧮 Average Rating Computation
+##  Average Rating Computation
 
 - Ratings are **stored as derived data** on the `Tool` entity
 - Recalculated only when:
@@ -181,7 +155,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 🔐 Security Assumptions
+##  Security Assumptions
 
 - Admin APIs are protected by role checks (`Role.ADMIN`)
 - Authentication is minimal and assumed for lab/demo purposes
@@ -189,7 +163,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 🧪 Database
+##  Database
 
 - **MySQL**
 - Relationships:
@@ -198,7 +172,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 👥 Team Responsibilities
+##  Team Responsibilities
 
 - **API Design:** Tool & Review endpoints
 - **Filtering Logic:** JPA Specifications
@@ -208,7 +182,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 📌 Future Enhancements
+##  Future Enhancements
 
 - Authentication & Authorization (JWT)
 - Pagination & sorting
@@ -218,7 +192,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 🧑‍💻 How to Run
+##  How to Run
 
 1. Configure MySQL in `application.properties`
 2. Build the project:mvn clean install
@@ -226,7 +200,7 @@ Invalid pricing values safely return no results.
 
 ---
 
-## 📄 License
+##  License
 
 This project is developed for educational and lab purposes.
 
