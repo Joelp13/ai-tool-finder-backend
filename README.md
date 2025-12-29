@@ -115,13 +115,11 @@ src/main/java/com/example/ai_tool_finder
 
 ### 🔍 Tool APIs (Public)
 
-#### Get all tools
-GET /api/tools
+#### Get all tools: GET /api/tools
 
 
 
-#### Filter tools
-GET /api/tools?category=Design&pricing=FREE&minRating=4
+#### Filter tools: GET /api/tools?category=Design&pricing=FREE&minRating=4
 
 **Notes:**
 - `pricing` is mandatory
@@ -132,8 +130,7 @@ GET /api/tools?category=Design&pricing=FREE&minRating=4
 
 ### ⭐ Review APIs (User)
 
-#### Submit a review
-POST /review
+#### Submit a review: POST /review
 
 
 
@@ -144,22 +141,17 @@ POST /review
 
 ---
 
-### 🛠 Admin APIs
+### 🛠 Admin APIs: Base path:/admin
 
-Base path:/admin
+#### Get pending reviews: GET /admin/reviews/pending
 
-#### Get pending reviews
-GET /admin/reviews/pending
-
-#### Approve a review
-POST /admin/reviews/{id}/approve
+#### Approve a review: POST /admin/reviews/{id}/approve
 
 
 - Marks review as `APPROVED`
 - Recalculates and updates tool’s average rating immediately
 
-#### Reject a review
-POST /admin/reviews/{id}/reject
+#### Reject a review: POST /admin/reviews/{id}/reject
 
 
 - Marks review as `REJECTED`
