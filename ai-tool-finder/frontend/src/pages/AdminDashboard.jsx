@@ -1,36 +1,24 @@
-import { useEffect, useState } from "react";
-import api from "../api/api";
+import Navbar from "../components/Navbar";
+import AddToolForm from "../components/AddToolForm";
+import ReviewModeration from "../components/ReviewModeration";
 
 function AdminDashboard() {
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    api.get("/admin/reviews/pending")
-      .then(res => setReviews(res.data));
-  }, []);
-
-  const approve = (id) => {
-    api.post(`/admin/reviews/${id}/approve`)
-      .then(() => setReviews(reviews.filter(r => r.id !== id)));
-  };
-
-  const reject = (id) => {
-    api.post(`/admin/reviews/${id}/reject`)
-      .then(() => setReviews(reviews.filter(r => r.id !== id)));
-  };
-
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
+    <>
+      <Navbar />
 
-      {reviews.map(r => (
-        <div key={r.id}>
-          <p>{r.comment} (Rating: {r.rating})</p>
-          <button onClick={() => approve(r.id)}>Approve</button>
-          <button onClick={() => reject(r.id)}>Reject</button>
+      <div className="page">
+        <h1>Admin Dashboard</h1>
+
+        <div className="admin-section">
+          <AddToolForm />
         </div>
-      ))}
-    </div>
+
+        <div className="admin-section">
+          <ReviewModeration />
+        </div>
+      </div>
+    </>
   );
 }
 

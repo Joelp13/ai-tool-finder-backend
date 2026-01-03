@@ -1,15 +1,40 @@
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
-import Login from "./components/Login";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ToolList from "./components/ToolList";
 import AdminDashboard from "./pages/AdminDashboard";
-import UserHome from "./pages/UserHome";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const { user } = useContext(AuthContext);
+  return (
+    <BrowserRouter>
+      <Routes>
 
-  if (!user) return <Login />;
+        {/* LOGIN */}
+        <Route path="/login" element={<Login />} />
 
-  return user.role === "ADMIN" ? <AdminDashboard /> : <UserHome />;
+        {/* USER DASHBOARD */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute role="USER">
+              <ToolList />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ADMIN DASHBOARD */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
