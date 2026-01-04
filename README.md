@@ -1,207 +1,174 @@
-# AI Tool Finder – Backend API 
+# Tool Review App
 
-AI Tool Finder is a backend-only REST API platform built using **Spring Boot** that allows users to discover, filter, and review AI tools.  
-The system also provides **admin moderation** for reviews and maintains **automatically computed average ratings** for tools.
-
-This project simulates a **real-world backend system** focusing on clean architecture, business logic, filtering, and role-based access.
+A full-stack web application for discovering AI tools and managing user reviews, built with **Spring Boot** (backend) and **React** (frontend).  
+The system supports **role-based access** with separate dashboards for **Admins** and **Users**, including a review moderation workflow.
 
 ---
 
-##  Features
+## Features
 
-###  AI Tool Management
-- Store AI tools with details like:
-  - Name
+### Authentication & Roles
+- Simple username/password login (demo-level, no JWT or session management)
+- Role-based navigation:
+  - **ADMIN**
+  - **USER**
+
+> This authentication approach is intentionally lightweight and **not production-ready**.
+
+---
+
+### Admin Features
+- Add new AI tools
+- View all existing tools with:
   - Category
-  - Use Case
-  - Pricing Type (FREE / PAID / SUBSCRIPTION)
-  - Average Rating (auto-calculated)
+  - Pricing type
+  - Use case
+  - Average rating
+- Review moderation:
+  - View **PENDING** reviews
+  - **Approve** or **Reject** reviews
+- Approved reviews automatically update tool average ratings
 
-###  Advanced Filtering
-- Filter tools based on:
+---
+
+### User Features
+- Browse AI tools
+- Filter tools by:
   - Category
-  - Pricing Type (mandatory)
-  - Minimum Average Rating
-- Supports combined filters using query parameters
-
-###  Review & Rating System
-- Users can submit **one review per tool**
-- Reviews include:
-  - Rating (1–5)
-  - Optional comment
-  - Status (PENDING / APPROVED / REJECTED)
-- **Only approved reviews affect tool ratings**
-- Average rating is **updated immediately on approval**
-
-###  Admin Moderation
-- Admins can:
-  - View pending reviews
-  - Approve reviews
-  - Reject reviews
-- Admin APIs are clearly separated from user APIs
+  - Minimum average rating
+- View approved reviews for each tool
+- Submit reviews (rating + comment)
+  - Reviews are visible only after admin approval
 
 ---
 
-##  Tech Stack
+## Screenshots
 
-- **Java 17+**
-- **Spring Boot**
-- **Spring Data JPA**
-- **JPA Specifications (Dynamic Filtering)**
-- **MySQL**
-- **Maven**
+> Place screenshots inside a `screenshots/` folder in the repository.
 
----
-
-##  Project Structure
-
-<img width="191" height="341" alt="image" src="https://github.com/user-attachments/assets/66671b7d-213d-402f-af67-cc45ef4621b5" />
-
+- `screenshots/login.png` – Login screen  
+- `screenshots/admin-manage-tools.png` – Admin tool management  
+- `screenshots/admin-pending-reviews.png` – Admin review moderation  
+- `screenshots/user-dashboard.png` – User dashboard with filters  
+- `screenshots/tool-reviews.png` – Reviews and review submission  
 
 ---
 
-##  Data Model Overview
+## Tech Stack
 
-### Tool
-- `id`
-- `name`
-- `category`
-- `pricingType` (FREE / PAID / SUBSCRIPTION)
-- `useCase`
-- `averageRating`
+### Backend
+- Java 17+
+- Spring Boot
+- Spring Web (REST APIs)
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
 
-### Review
-- `id`
-- `rating` (1–5)
-- `comment`
-- `status` (PENDING / APPROVED / REJECTED)
-- `user`
-- `tool`
-
-### User
-- `id`
-- `username`
-- `role` (USER / ADMIN)
+### Frontend
+- React (Create React App)
+- JavaScript (ES6+)
+- Fetch API
+- Plain CSS (dark theme)
 
 ---
 
-##  API Endpoints
+## Backend Architecture
 
-###  Tool APIs (Public)
+src/main/java/com/example/ai_tool_finder
+├── controller
+├── service
+├── repository
+├── model
+├── dto
+├── exception
+└── specification
 
-#### Get all tools: GET /api/tools
-
-
-
-#### Filter tools: GET /api/tools?category=Design&pricing=FREE&minRating=4
-
-**Notes:**
-- `pricing` is mandatory
-- Filters are case-sensitive
-- Multiple filters can be combined
-
----
-
-###  Review APIs (User)
-
-#### Submit a review: POST /review
-
-
-
-**Rules:**
-- One review per user per tool
-- Review status defaults to `PENDING`
-- Rating is **not** updated until admin approval
+### Backend Highlights
+- DTO-based API design
+- Global exception handling
+- JPA Specifications for dynamic filtering
+- Enum-driven state management (`PENDING`, `APPROVED`, `REJECTED`)
+- Proper entity relationships:
+  - User ↔ Review ↔ Tool
 
 ---
 
-###  Admin APIs: Base path:/admin
+## Frontend Architecture
 
-#### Get pending reviews: GET /admin/reviews/pending
+src/
+├── components
+│ ├── Login.jsx
+│ ├── AdminDashboard.jsx
+│ ├── UserDashboard.jsx
+│ └── ToolReviews.jsx
+├── api.js
+├── App.js
+└── index.js
 
-#### Approve a review: POST /admin/reviews/{id}/approve
 
-
-- Marks review as `APPROVED`
-- Recalculates and updates tool’s average rating immediately
-
-#### Reject a review: POST /admin/reviews/{id}/reject
-
-
-- Marks review as `REJECTED`
-- Does not affect tool rating
-
----
-
-##  Filtering Logic
-
-Filtering is implemented using **Spring Data JPA Specifications**.
-
-Supported filters:
-- Category
-- Pricing Type (enum-safe)
-- Minimum average rating
-
-Invalid pricing values safely return no results.
+### Frontend Notes
+- Role stored in `localStorage` after login
+- Backend base URL configured via environment variables
+- No routing library; navigation is state-driven
 
 ---
 
-##  Average Rating Computation
+## Environment Setup
 
-- Ratings are **stored as derived data** on the `Tool` entity
-- Recalculated only when:
-  - A review is approved by an admin
-- Prevents expensive recalculation on every read
+### Backend (`application.properties`)
 
----
+spring.datasource.url=jdbc:mysql://localhost:3306/tool_review_db
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
 
-##  Security Assumptions
-
-- Admin APIs are protected by role checks (`Role.ADMIN`)
-- Authentication is minimal and assumed for lab/demo purposes
-- Future scope includes Spring Security & JWT
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
 
 ---
 
-##  Database
-
-- **MySQL**
-- Relationships:
-  - Tool → Reviews (unidirectional)
-  - User → Reviews (unidirectional)
+### Frontend (`.env`)
+REACT_APP_API_BASE_URL=http://localhost:8080
 
 ---
 
-##  Team Responsibilities
+## Running the Application
 
-- **API Design:** Tool & Review endpoints
-- **Filtering Logic:** JPA Specifications
-- **Rating Computation:** Average rating updates
-- **Admin Moderation:** Review approval/rejection
-- **Testing & Documentation:** API testing and README
+### Backend
+Backend runs on: `http://localhost:8080`
 
 ---
 
-##  Future Enhancements
-
-- Authentication & Authorization (JWT)
-- Pagination & sorting
-- Search by tool name
-- Caching for frequent queries
-- Review edit/delete by users
+### Frontend
+Frontend runs on: `http://localhost:3000`
 
 ---
 
-##  How to Run
+## API Overview
 
-1. Configure MySQL in `application.properties`
-2. Build the project:mvn clean install
-3. Run the application:mvn spring-boot:run
+### Authentication
+- `POST /login`
+
+### Tools
+- `GET /tools`
+- `POST /admin/tools`
+- `GET /tools/filter`
+
+### Reviews
+- `POST /reviews`
+- `GET /tools/{id}/reviews`
+- `GET /admin/reviews/pending`
+- `POST /admin/reviews/{id}/approve`
+- `POST /admin/reviews/{id}/reject`
 
 ---
 
-##  License
+## Known Limitations
 
-This project is developed for educational and lab purposes.
+- No Spring Security or JWT
+- Passwords are not encrypted
+- No pagination or sorting
+- No deployment configuration
+- Minimal frontend styling
 
-
+This project is intended for **learning and demonstration purposes**, not production use.
