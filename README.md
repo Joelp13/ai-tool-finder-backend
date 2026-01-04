@@ -43,11 +43,16 @@ The system supports **role-based access** with separate dashboards for **Admins*
 ---
 
 ## Screenshots
-- <img width="389" height="387" alt="image" src="https://github.com/user-attachments/assets/28296716-602a-4fe6-8c74-ea8658aa393b" /> – Login screen  
-- <img width="960" height="560" alt="image (4)" src="https://github.com/user-attachments/assets/57f6513b-4eb5-4cec-a9a8-a2fbc59d5102" /> – Admin tool management  
-- <img width="959" height="562" alt="image (3)" src="https://github.com/user-attachments/assets/61fe02f0-1db2-4fb9-9cc5-f3c257564d7b" /> – Admin review moderation  
-- <img width="959" height="564" alt="image (1)" src="https://github.com/user-attachments/assets/5978ae69-37a2-4127-b514-fef052216798" /> – User dashboard with filters  
-- <img width="960" height="563" alt="image (2)" src="https://github.com/user-attachments/assets/031727e4-8b3c-4217-b758-b08067af93c3" /> – Reviews and review submission  
+- <img width="389" height="387" alt="image" src="https://github.com/user-attachments/assets/28296716-602a-4fe6-8c74-ea8658aa393b" />
+- – Login screen  
+- <img width="960" height="560" alt="image (4)" src="https://github.com/user-attachments/assets/57f6513b-4eb5-4cec-a9a8-a2fbc59d5102" />
+- – Admin tool management  
+- <img width="959" height="562" alt="image (3)" src="https://github.com/user-attachments/assets/61fe02f0-1db2-4fb9-9cc5-f3c257564d7b" />
+- – Admin review moderation  
+- <img width="959" height="564" alt="image (1)" src="https://github.com/user-attachments/assets/5978ae69-37a2-4127-b514-fef052216798" />
+- – User dashboard with filters  
+- <img width="960" height="563" alt="image (2)" src="https://github.com/user-attachments/assets/031727e4-8b3c-4217-b758-b08067af93c3" />
+- – Reviews and review submission  
 
 ---
 
@@ -71,7 +76,7 @@ The system supports **role-based access** with separate dashboards for **Admins*
 ---
 
 ## Backend Architecture
-
+```text
 src/main/java/com/example/ai_tool_finder
 ├── controller
 ├── service
@@ -80,6 +85,7 @@ src/main/java/com/example/ai_tool_finder
 ├── dto
 ├── exception
 └── specification
+```
 
 ### Backend Highlights
 - DTO-based API design
@@ -92,16 +98,17 @@ src/main/java/com/example/ai_tool_finder
 ---
 
 ## Frontend Architecture
-
+```text
 src/
-├── components
-│ ├── Login.jsx
-│ ├── AdminDashboard.jsx
-│ ├── UserDashboard.jsx
-│ └── ToolReviews.jsx
+├── components/
+│   ├── Login.jsx
+│   ├── AdminDashboard.jsx
+│   ├── UserDashboard.jsx
+│   └── ToolReviews.jsx
 ├── api.js
 ├── App.js
 └── index.js
+```
 
 
 ### Frontend Notes
